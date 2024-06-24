@@ -23,7 +23,7 @@ jobs:
 
       - name: Build project
         run: |
-          cd TESTTT/elhamdullah
+          cd TESTTTTT/elhamdullah
           qmake ttt.pro
           make
       
