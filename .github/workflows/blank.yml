@@ -1,29 +1,30 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - '**'
-  pull_request:
-    branches:
-      - '**'
+on: [push, pull_request]
 
 jobs:
-  test-runner:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install Qt
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qtbase5-dev qt5-qmake
+    - name: Set up Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        modules: qtbase, qttools
+        host: linux
 
-      - name: Build project
-        run: |
-          cd TESTTTTT/elhamdullah
-          qmake ttt.pro
-          make
-      
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential
+
+    - name: Build the project
+      run: |
+        mkdir build
+        cd build
+        qmake ..
+        make
