@@ -10,20 +10,19 @@ on:
 
 jobs:
   test-runner:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Qt
+      - name: Install Qt using Chocolatey
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qtbase5-dev qt5-qmake
+          choco install qt5-default --confirm
 
-      - name: Build project
+      - name: Display Qt Installation Directory
+        shell: powershell
         run: |
-          cd TESTTTTT/elhamdullah
-          qmake ttt.pro.user
-          make
-      
+          $qtPath = (Get-ChildItem -Path "C:\Program Files (x86)\*" -Include "Qt" -Recurse | Select-Object -First 1).FullName
+          Write-Host "Qt installation directory: $qtPath"
+
