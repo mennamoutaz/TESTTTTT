@@ -16,9 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Qt tools using Chocolatey
-        run: |
-          choco install qt5-tools --confirm
+      - name: (2) Install Qt
+        uses: jurplel/install-qt-action@v3
 
       - name: Find qmake.exe path
         id: find-qt-path
