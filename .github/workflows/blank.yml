@@ -20,9 +20,17 @@ jobs:
         run: |
           choco install qt5-default --confirm
 
-      - name: Display Qt Installation Directory
+      - name: Find qmake.exe path
+        id: find-qt-path
         shell: powershell
         run: |
-          $qtPath = (Get-ChildItem -Path "C:\Program Files (x86)\*" -Include "Qt" -Recurse | Select-Object -First 1).FullName
-          Write-Host "Qt installation directory: $qtPath"
+          $qtPath = Get-ChildItem -Path "C:\Program Files (x86)\Android\android-sdk\emulator\lib64\qt" -Filter "qmake.exe" -Recurse -File | Select-Object -First 1 -ExpandProperty FullName
+          if ($qtPath) {
+            echo "##[set-output name=qt-path;]$qtPath"
+          } else {
+            Write-Host "qmake.exe not found in the specified path."
+          }
 
+      - name: Use Qt installation path
+        run: |
+          echo "qmake.exe path is ${{ steps.find-qt-path.outputs.qt-path }}"
