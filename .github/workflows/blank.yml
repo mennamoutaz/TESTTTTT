@@ -23,7 +23,7 @@ jobs:
         id: find-qt-path
         shell: powershell
         run: |
-          $qtPath = Get-ChildItem -Path "C:\Program Files (x86)\Android\android-sdk\emulator\lib64\qt" -Filter "qmake.exe" -Recurse -File | Select-Object -First 1 -ExpandProperty FullName
+          $qtPath = Get-ChildItem -Path "C:\Program Files (x86)\Android\android-sdk\emulator\lib64\qt" -Filter "qmake" -Recurse -File | Select-Object -First 1 -ExpandProperty FullName
           if ($qtPath) {
             echo "##[set-output name=qt-path;]$qtPath"
           } else {
